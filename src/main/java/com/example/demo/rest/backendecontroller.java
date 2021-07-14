@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +29,19 @@ public class backendecontroller {
 		try {
 			createTable();
 			tipoCambioRango(first, second);
+			return select();
+			//System.out.println(first+second);
+			//insert(1, "01/01/2000", 15.7, 15.7);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@GetMapping("/consultatipocambio")
+	public ArrayList<monedamodel> consulta () {
+		try {			
 			return select();
 			//insert(1, "01/01/2000", 15.7, 15.7);
 		} catch (Exception e) {
@@ -73,7 +87,7 @@ public class backendecontroller {
 	
 	public static ArrayList<monedamodel> select() throws Exception{
 		Connection conn = getConnection();
-		PreparedStatement posted = conn.prepareStatement("SELECT id,moneda,fecha,venta,compra FROM tipo_cambio");
+		PreparedStatement posted = conn.prepareStatement("SELECT id,moneda,fecha,venta,compra FROM tipo_cambio ORDER BY id DESC");
 		ResultSet result = posted.executeQuery();
 		ArrayList<monedamodel> array = new ArrayList<monedamodel>();		
 		while (result.next()) {
